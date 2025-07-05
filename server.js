@@ -13,6 +13,7 @@ const stripeRoutes = require('./routes/stripeRoutes')
 
 
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -34,7 +35,7 @@ app.use('/api/v1/payments/webhook', require('./routes/webhook'));
 
 // Simple API
 app.get('/', (req, res) => {
-  res.send('Welcome to ecommerce application!');
+  res.send('Welcome to e-commerce application!');
 });
 
 
