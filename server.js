@@ -35,7 +35,7 @@ app.use('/api/v1/payments/webhook', require('./routes/webhook'));
 
 // Simple API
 app.get('/', (req, res) => {
-  res.send('Welcome to e-commerce application!');
+  res.send('Welcome to E-commerce application!');
 });
 
 
