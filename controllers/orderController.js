@@ -85,8 +85,14 @@ exports.getUserOrders = async (req, res) => {
             },
           ],
         },
-        Shipping,
-        Payment,
+        {
+          model: Shipping,
+          attributes: ["shipping_id","address","city","postal_code","country","status"]
+        },
+        {
+          model: Payment,
+          attributes: ["payment_id","payment_method","payment_status","transation_id"]
+        }
       ],
     });
     return res.json({ message: "Fetch all order successfully.", orders });
