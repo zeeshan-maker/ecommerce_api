@@ -5,6 +5,7 @@ exports.createOrder = async (req, res) => {
   const user_id = req.user.user_id;
   const { address, city, postalCode, country, paymentMethod } = req.body;
   
+  
   try {
     const cart = await Cart.findOne({ where: { user_id }, include: [{ model: CartItem, include: [Product] }] });
     if (!cart || cart.CartItems.length === 0)
@@ -34,7 +35,7 @@ exports.createOrder = async (req, res) => {
     await Payment.create({
       order_id: order.order_id,
       payment_method: paymentMethod,
-      payment_status: paymentMethod === "COD" ? "PENDING" : "SUCCESS"
+      payment_status: paymentMethod === "COD" ? "PENDING" : "PAID"
     });
 
     // Create shipping

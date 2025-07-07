@@ -4,6 +4,7 @@ const { Cart, CartItem, Product } = require("../models/index");
 
 exports.createStripeSession = async (req, res) => {
   const user_id = req.user.user_id;
+  const { address, city, postalCode, country, paymentMethod } = req.body;
 
   try {
     const cart = await Cart.findOne({
@@ -41,14 +42,12 @@ exports.createStripeSession = async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items,
-      success_url: `${process.env.CLIENT_URL}/payment-success`,
+      success_url: `${process.env.CLIENT_URL}/payment-success?address=${address}&city=${city}&postalCode=${postalCode}&country=${country}&paymentMethod=${paymentMethod}`,
       cancel_url: `${process.env.CLIENT_URL}/cart`,
-      metadata: {
-        user_id: user_id.toString(),
-      },
     });
 
     return res.status(200).json({ url: session.url });
+  
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
