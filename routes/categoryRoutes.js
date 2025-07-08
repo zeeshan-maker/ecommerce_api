@@ -5,6 +5,6 @@ const authenticate = require("../middleware/auth");
 const isAdmin = require("../middleware/admin");
 
 router.post('/',authenticate,isAdmin, createCategory);
-router.get('/',authenticate,isAdmin, getAllCategory);
+router.get('/', getAllCategory);
 
 module.exports = router;
