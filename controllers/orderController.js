@@ -27,7 +27,12 @@ exports.createOrder = async (req, res) => {
     });
 
     // Create order
-    const order = await Order.create({ user_id, total_amount });
+    const order = await Order.create({ 
+       user_id,
+       status: paymentMethod === "ONLINE" ? "CONFIRMED": "PENDING",
+       payment_status: paymentMethod === "ONLINE" ? "PAID" : "PENDING",
+       total_amount
+       });
 
     // Create order items
     const orderItems = cart.CartItems.map((item) => ({
