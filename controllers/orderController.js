@@ -123,10 +123,8 @@ exports.getOrderById = async (req, res) => {
 
 exports.getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.findAll({
-      include: [OrderItem, Shipping, Payment],
-    });
-    return res.json(orders);
+    const orders = await Order.findAll();
+    return res.status(200).json(orders);
   } catch (err) {
     return res.status(500).json({
       status: 500,
