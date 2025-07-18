@@ -91,7 +91,7 @@ exports.login = async (req, res) => {
       message: "User login successfully",
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
-      user: { name: user.name, email: user.email, role: user.role },
+      user: {id:user.user_id, name: user.name, email: user.email, role: user.role },
     });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
