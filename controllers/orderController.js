@@ -144,18 +144,6 @@ exports.updateOrderStatus = async (req, res) => {
     order.status = status;
     await order.save();
 
-     // ✅ Emit socket event to user
-  const io = req.app.get('io');
-  const connectedUsers = req.app.get('connectedUsers');
-  const socketId = connectedUsers[order.user_id];
-
-  if (socketId) {
-    io.to(socketId).emit('order_status_updated', {
-      orderId: order.order_id,
-      status: order.status,
-    });
-  }
-
     return res.json({ message: "Order status updated", order });
   } catch (err) {
     return res.status(500).json({ error: "Failed to update status" });

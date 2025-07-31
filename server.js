@@ -10,44 +10,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const orderRoutes = require("./routes/orderRoutes")
 const stripeRoutes = require('./routes/stripeRoutes')
-const http = require('http'); 
-const { Server } = require('socket.io');
 
-
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: '*', // replace with your frontend URL in production
-    methods: ['GET', 'POST']
-  }
-});
-// ✅ Socket.io user mapping
-const connectedUsers = {};
-
-// ✅ Socket.io handling
-io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
-
-  socket.on('register', (userId) => {
-    connectedUsers[userId] = socket.id;
-    console.log(`User ${userId} registered with socket ID ${socket.id}`);
-  });
-
-  socket.on('disconnect', () => {
-    for (let userId in connectedUsers) {
-      if (connectedUsers[userId] === socket.id) {
-        delete connectedUsers[userId];
-        break;
-      }
-    }
-    console.log('User disconnected:', socket.id);
-  });
-  });
-
-  // Export io and connectedUsers to use in controllers
-app.set('io', io);
-app.set('connectedUsers', connectedUsers);
 
 // Middleware
 app.use(cors());
@@ -74,13 +37,10 @@ app.get('/', (req, res) => {
 });
 
 
-sequelize
-  .authenticate()
-  .then(() => console.log("Database connected successfully."))
-  .catch((error) => console.error("Database connection error:", error));
+
 
 sequelize.sync({force: false}).then(()=>{
-    server.listen(PORT, () => {
+    app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 })
