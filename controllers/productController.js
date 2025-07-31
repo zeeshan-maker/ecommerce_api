@@ -1,6 +1,7 @@
 const {Product, Category} = require("../models/index");
 const path = require("path");
 const fs = require("fs")
+const cloudinary = require("../config/cloudinary");
 
 exports.createProduct = async (req, res) => {
     const { name, description, price, stock, category_id } = req.body;
@@ -8,6 +9,15 @@ exports.createProduct = async (req, res) => {
        
  
   try {
+
+     // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "product", // Cloudinary folder name
+    });
+
+    // Delete local file after upload
+    fs.unlinkSync(req.file.path);
+
      // Validate category
     const category = await Category.findByPk(category_id);
     if (!category) {
@@ -16,7 +26,7 @@ exports.createProduct = async (req, res) => {
         message: "Invalid category" 
       });
     }
-    await Product.create({name,description,price,stock,category_id,image:`uploads/product/${image}`})
+    await Product.create({name,description,price,stock,category_id,image:result.secure_url})
     return res.status(201).json({status:201,message:"Product created successfully."});
     
   } catch (err) {
