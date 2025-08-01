@@ -36,7 +36,7 @@ exports.register = async (req, res) => {
         "Registration successful. Please Check your email to verify your account.",
     });
 
-    const link = `https://ecommerce-api-ip3v.onrender.com/api/v1/auth/verify-user/${token}`;
+    const link = `https://ecommerce-api-z44v.onrender.com/api/v1/auth/verify-user/${token}`;
     await sendEmail(
       email,
       "Use This Link to Activate Your Account",
@@ -68,7 +68,7 @@ exports.login = async (req, res) => {
       const token = crypto.randomBytes(32).toString("hex");
       user.resetToken = token;
       await user.save();
-      const link = `https://ecommerce-api-ip3v.onrender.com/api/v1/auth/verify-user/${token}`;
+      const link = `https://ecommerce-api-z44v.onrender.com/api/v1/auth/verify-user/${token}`;
       await sendEmail(
         email,
         "Use This Link to Activate Your Account",
