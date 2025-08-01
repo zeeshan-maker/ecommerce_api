@@ -35,7 +35,6 @@ exports.createProduct = async (req, res) => {
 };
 
 
-
 exports.getAllProduct = async (req,res)=>{
    try {
     const products = await Product.findAll({
