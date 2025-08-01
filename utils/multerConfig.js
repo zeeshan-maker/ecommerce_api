@@ -39,14 +39,10 @@ const fs = require("fs");
 
 
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Temp folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+
+
+// Store file in memory (no local storage)
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 

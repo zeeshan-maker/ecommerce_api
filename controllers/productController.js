@@ -5,18 +5,17 @@ const cloudinary = require("../config/cloudinary");
 
 exports.createProduct = async (req, res) => {
     const { name, description, price, stock, category_id } = req.body;
-    const image = req.file?.filename;
-       
- 
+
   try {
 
-     // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path, {
+      // Upload to Cloudinary
+      // Convert buffer to base64
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+    const result = await cloudinary.uploader.upload(dataURI, {
       folder: "product", // Cloudinary folder name
     });
 
-    // Delete local file after upload
-    fs.unlinkSync(req.file.path);
 
      // Validate category
     const category = await Category.findByPk(category_id);
